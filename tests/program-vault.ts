@@ -1,24 +1,16 @@
-use {
-  anchor_lang::{solana_program::instruction::Instruction, InstructionData, ToAccountMetas},
-  litesvm::LiteSVM,
-  solana_keypair::Keypair,
-  solana_message::{Message, VersionedMessage},
-  solana_signer::Signer,
-  solana_transaction::versioned::VersionedTransaction,
-};
+import * as anchor from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import { Vault } from "../target/types/vault";
 
-#[test]
-fn test_program_vault() {
-  let program_id = "298AoxcTPxtnyx7a5k12wPEpvVHmhSKoAbEv81jwTWc3".parse().unwrap();
-  let instruction = Instruction {
-    program_id,
-    accounts: vec![],
-    data: vec![],
-  };
+describe("program-vault", () => {
+  // Configure the client to use the local cluster.
+  anchor.setProvider(anchor.AnchorProvider.env());
 
-  let message = VersionedMessage::Legacy(Message::new(&[instruction], None));
-  let transaction = VersionedTransaction::try_new(message, &[&Keypair::new()]).unwrap();
+  const program = anchor.workspace.Vault as Program<Vault>;
 
-  let mut litesvm = LiteSVM::new();
-  litesvm.execute_transaction(&transaction).unwrap();
-}
+  it("Is initialized!", async () => {
+    // Add your test here.
+    const tx = await program.methods.initialize().rpc();
+    console.log("Your transaction signature", tx);
+  });
+});

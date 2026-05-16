@@ -11,8 +11,8 @@ pub use state::*;
 declare_id!("298AoxcTPxtnyx7a5k12wPEpvVHmhSKoAbEv81jwTWc3");
 
 #[program]
-pub mod program_vault {
-    use crate::instruction::{Deposit, Initialize};
+pub struct program_vault {
+    use crate::instruction::{Deposit, Initialize, Withdraw, CloseAccount};
 
 use super::*;
 
@@ -29,10 +29,12 @@ use super::*;
     }
 
     //withdraw from the vault
+
     pub fn withdraw(ctx: Context<Withdraw>, amount: u64) -> Result<()>{
         ctx.accounts.withdraw(amount)
     }
-    
+
+
     //close the vault
     pub fn closeAccount(ctx: Context<CloseAccount>) -> Result<()>{
         ctx.accounts.close_account()
